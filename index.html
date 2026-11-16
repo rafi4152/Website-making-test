@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SerialKotha - Premium Streaming Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f1015;
+            --card-bg: #181a20;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --accent-color: #0070f3;
+            --accent-hover: #0051a2;
+            --border-color: #2a2e39;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Hind Siliguri', sans-serif; }
+        body { background: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Star Jalsha Style Header */
+        .header { background: rgba(15, 16, 21, 0.95); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; padding: 12px 25px; }
+        .logo { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: 0.5px; }
+        .logo span { color: var(--accent-color); }
+        .top-actions { display: flex; gap: 12px; align-items: center; }
+        .theme-btn { background: var(--card-bg); color: var(--text-primary); border: 1px solid var(--border-color); padding: 6px 14px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 12px; transition: 0.3s; }
+        .theme-btn:hover { background: var(--border-color); }
+
+        /* Main Wrapper */
+        .main-container { max-width: 900px; margin: 30px auto; padding: 0 15px; }
+
+        /* Premium Video Card */
+        .portal-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.5); }
+        .portal-title { font-size: 20px; font-weight: 700; margin-bottom: 15px; color: var(--text-primary); }
+
+        /* Video Container */
+        .video-container { position: relative; width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 8px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .video-container iframe { width: 100%; height: 100%; border: none; }
+
+        /* Auto-Pause Overlay (Monetization Trap) */
+        .pause-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 11, 15, 0.95); backdrop-filter: blur(8px); z-index: 99; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 25px; }
+        .pause-msg { color: #fff; font-size: 16px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; max-width: 500px; }
+        .resume-btn { background: #e50914; color: #fff; border: none; padding: 10px 25px; font-size: 15px; font-weight: 700; border-radius: 6px; cursor: pointer; transition: transform 0.2s; box-shadow: 0 4px 12px rgba(229,9,20,0.4); }
+        .resume-btn:hover { transform: scale(1.05); }
+
+        /* Action Buttons Grid */
+        .action-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+        .action-btn { flex: 1; min-width: 130px; padding: 12px; text-align: center; background: #21252b; color: var(--text-primary); font-weight: 600; border-radius: 6px; text-decoration: none; border: 1px solid var(--border-color); font-size: 14px; transition: 0.3s; display: inline-flex; justify-content: center; align-items: center; }
+        .action-btn:hover { background: var(--border-color); border-color: var(--accent-color); }
+        .action-btn.download-hd { background: var(--accent-color); border: none; color: #fff; }
+        .action-btn.download-hd:hover { background: var(--accent-hover); }
+
+        /* Light Mode Variables */
+        body.light-mode { --bg-color: #f4f5f7; --card-bg: #ffffff; --text-primary: #111827; --text-secondary: #4b5563; --border-color: #e5e7eb; }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Nav -->
+    <header class="header">
+        <div class="logo">Serial<span>Kotha</span></div>
+        <div class="top-actions">
+            <button class="theme-btn" id="themeToggle">Light Mode</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        
+        <div class="portal-card">
+            <h1 class="portal-title">নতুন পর্ব - প্রিমিয়াম স্ট্রিমিং এইচডি</h1>
+            
+            <div class="video-container" id="videoBox">
+                <!-- YouTube Embed with API Enabled -->
+                <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY?enablejsapi=1&rel=0&modestbranding=1" allow="autoplay"></iframe>
+                
+                <!-- 45-Second Auto Pause Overlay -->
+                <div class="pause-overlay" id="pauseOverlay">
+                    <div class="pause-msg">পূর্ণাঙ্গ ভিডিওটি দেখতে যেকোনো বিজ্ঞাপনে বা স্ক্রিনে ক্লিক করে ২০-৩০ সেকেন্ড ঘুরে আসুন!</div>
+                    <button class="resume-btn" id="resumeBtn">আমি ঘুরে এসেছি (Play)</button>
+                </div>
+            </div>
+
+            <!-- Server & Download Buttons -->
+            <div class="action-grid">
+                <a href="#" class="action-btn" target="_blank">Server 1 (Auto)</a>
+                <a href="#" class="action-btn" target="_blank">Fast Load</a>
+                <a href="#" class="action-btn download-hd" target="_blank">Download HD</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script Engine -->
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            themeToggle.textContent = document.body.classList.contains('light-mode') ? 'Dark Mode' : 'Light Mode';
+        });
+
+        // 45-Second Auto-Pause Monetization Engine
+        document.addEventListener("DOMContentLoaded", function() {
+            const wrapper = document.getElementById('videoBox');
+            const iframe = wrapper.querySelector('iframe');
+            const overlay = document.getElementById('pauseOverlay');
+            const resumeBtn = document.getElementById('resumeBtn');
+            
+            let timerStarted = false;
+
+            wrapper.addEventListener('click', function() {
+                if (!timerStarted) {
+                    timerStarted = true;
+                    setTimeout(function() {
+                        // Pause Video via PostMessage API
+                        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                        overlay.style.display = 'flex';
+                    }, 45000); // ঠিক ৪৫ সেকেন্ড পর পজ হবে
+                }
+            });
+
+            resumeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                overlay.style.display = 'none';
+                // Resume Video via PostMessage API
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            });
+        });
+    </script>
+
+</body>
+</html>
